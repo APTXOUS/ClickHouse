@@ -214,8 +214,7 @@ std::vector<MergeTreeData::AlterDataPartTransactionPtr> StorageMergeTree::prepar
 
     const auto & columns_for_parts = new_columns.getAllPhysical();
 
-    const Settings & settings_ = context.getSettingsRef();
-    size_t thread_pool_size = std::min<size_t>(parts.size(), settings_.max_alter_threads);
+    size_t thread_pool_size = std::min<size_t>(parts.size(), context.getSettingsRef().max_alter_threads);
 
     std::optional<ThreadPool> thread_pool;
 
