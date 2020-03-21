@@ -106,7 +106,7 @@ boost::shared_ptr<const QuotaContext::Intervals> QuotaContextFactory::QuotaInfo:
     new_intervals->quota_key = key;
     auto & intervals = new_intervals->intervals;
     intervals.reserve(quota->all_limits.size());
-    constexpr size_t MAX_RESOURCE_TYPE = Quota::MAX_RESOURCE_TYPE;
+    static constexpr size_t MAX_RESOURCE_TYPE = Quota::MAX_RESOURCE_TYPE;
     for (const auto & limits : quota->all_limits)
     {
         intervals.emplace_back();
