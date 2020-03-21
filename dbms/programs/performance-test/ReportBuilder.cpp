@@ -101,20 +101,20 @@ std::string ReportBuilder::buildFullReport(
             if (!statistics.ready)
                 continue;
 
-            JSONString runJSON;
+            JSONString run_json;
 
-            runJSON.set("query", jsonString(test_info.queries[query_index], settings), false);
-            runJSON.set("query_index", query_index);
+            run_json.set("query", jsonString(test_info.queries[query_index], settings), false);
+            run_json.set("query_index", query_index);
             if (!statistics.exception.empty())
             {
                 if (isASCIIString(statistics.exception))
-                    runJSON.set("exception", jsonString(statistics.exception, settings), false);
+                    run_json.set("exception", jsonString(statistics.exception, settings), false);
                 else
-                    runJSON.set("exception", "Some exception occurred with non ASCII message. This may produce invalid JSON. Try reproduce locally.");
+                    run_json.set("exception", "Some exception occurred with non ASCII message. This may produce invalid JSON. Try reproduce locally.");
             }
 
             /// in seconds
-            runJSON.set("min_time", statistics.min_time / double(1000));
+            run_json.set("min_time", statistics.min_time / double(1000));
 
             if (statistics.sampler.size() != 0)
             {
@@ -137,21 +137,21 @@ std::string ReportBuilder::buildFullReport(
                 quantiles.set("0.9999",
                     statistics.sampler.quantileInterpolated(99.99 / 100.0));
 
-                runJSON.set("quantiles", quantiles.asString());
+                run_json.set("quantiles", quantiles.asString());
             }
 
-            runJSON.set("total_time", statistics.total_time);
+            run_json.set("total_time", statistics.total_time);
 
             if (statistics.total_time != 0)
             {
-                runJSON.set("queries_per_second", static_cast<double>(statistics.queries) / statistics.total_time);
-                runJSON.set("rows_per_second", static_cast<double>(statistics.total_rows_read) / statistics.total_time);
-                runJSON.set("bytes_per_second", static_cast<double>(statistics.total_bytes_read) / statistics.total_time);
+                run_json.set("queries_per_second", static_cast<double>(statistics.queries) / statistics.total_time);
+                run_json.set("rows_per_second", static_cast<double>(statistics.total_rows_read) / statistics.total_time);
+                run_json.set("bytes_per_second", static_cast<double>(statistics.total_bytes_read) / statistics.total_time);
             }
 
-            runJSON.set("memory_usage", statistics.memory_usage);
+            run_json.set("memory_usage", statistics.memory_usage);
 
-            run_infos.push_back(runJSON);
+            run_infos.push_back(run_json);
         }
     }
 
